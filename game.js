@@ -25,14 +25,15 @@ function createGame() {
             
             // current player turn over, change to next player 
             turn = (turn == p1) ? p2 : p1; 
-            // TODO: render updated positon info 
 
-            console.log(board); 
+            // render updated positon info 
+            this.render(position, symbol); 
+            
             // check for winner
             const win = this.checkWinner(symbol); 
             if (win) {
                 console.log("Player with symbol " + symbol + " wins!"); 
-                return turn; 
+                // TODO: render winner info 
             }
         }
         // if position is already taken, no action needed 
@@ -51,6 +52,12 @@ function createGame() {
                 return true; 
             } 
         return false; 
+    }
+
+    // given position and symbol, update the box in div
+    this.render = function(position, symbol) {
+        const pos = "#cell" + position; 
+        document.querySelector(pos).innerHTML = symbol; 
     }
 
     return { p1, p2, board, play: this.play.bind(this) }; 

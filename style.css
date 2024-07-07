@@ -8,9 +8,13 @@ body {
 .game_board {
     display: grid;
     grid-template-rows: 100px 100px 100px; 
-    grid-template-columns: 100px 100px 100px;
+    grid-template-columns: 100px 100px 100px; 
 }
 
 .game_board .sec {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: 2px solid black; 
+    font-size: 50px;
 }
