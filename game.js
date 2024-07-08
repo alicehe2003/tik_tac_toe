@@ -15,10 +15,18 @@ function createGame() {
 
     // p1 goes first 
     let turn = p1; 
+    document.querySelector(".player_turn").innerHTML = "Player X's turn."; 
 
     // play a single piece
     this.play = function(position) {
         const symbol = turn.symbol; 
+
+        if (turn == p1) {
+            document.querySelector(".player_turn").innerHTML = "Player O's turn."; 
+        } else {
+            document.querySelector(".player_turn").innerHTML = "Player X's turn."; 
+        }
+
         // if position is not taken, set as taken 
         if (board[position] == " ") {
             board[position] = symbol; 
