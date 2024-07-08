@@ -23,20 +23,22 @@ function createGame() {
         if (board[position] == " ") {
             board[position] = symbol; 
             
-            // current player turn over, change to next player 
-            turn = (turn == p1) ? p2 : p1; 
-
             // render updated positon info 
             this.render(position, symbol); 
             
             // check for winner
             const win = this.checkWinner(symbol); 
             if (win) {
-                console.log("Player with symbol " + symbol + " wins!"); 
-                // TODO: render winner info 
+                // handle win case 
+                this.winningBoard(turn); 
+                return true; 
             }
+
+            // current player turn over, change to next player 
+            turn = (turn == p1) ? p2 : p1; 
         }
         // if position is already taken, no action needed 
+        return false; 
     }
 
     // check if player with given symbol is a winner 
@@ -60,12 +62,32 @@ function createGame() {
         document.querySelector(pos).innerHTML = symbol; 
     }
 
+    this.winningBoard = function(winningPlayer) {
+        document.querySelector(".announce_winner").innerHTML = "Winner: Player " + winningPlayer.symbol; 
+    }
+
     return { p1, p2, board, play: this.play.bind(this) }; 
 }
 
 const game = new createGame(); 
-game.play(0); 
-game.play(3); 
-game.play(1); 
-game.play(4); 
-game.play(2); 
+
+// define the click handler function
+const clickHandler = (event) => {
+    const cell = event.target;
+    const pos = parseInt(cell.id.slice(4));
+    const gameOver = game.play(pos);
+    if (gameOver) {
+        // Remove all event listeners from cells
+        cells.forEach(cell => {
+            cell.removeEventListener("click", clickHandler);
+        });
+    }
+};
+
+// add event listener to each cell
+const cells = document.querySelectorAll(".sec");
+
+cells.forEach(cell => {
+    cell.addEventListener("click", clickHandler);
+});
+
